@@ -1,0 +1,12 @@
+---
+#
+
+# download apache
+- name: download apache maven
+  get_url:
+    url: http://www.apache.org/dist/maven/maven-{{ maven_version }}/{{ maven_release }}/binaries/apache-maven-{{ maven_release }}-bin.tar.gz
+    dest: /tmp/maven-{{ maven_release }}.tar.gz
+
+# unarchive file
+
+# configure variables
