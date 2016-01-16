@@ -1,5 +1,7 @@
 ---
-- hosts: localhost
-  remote_user: root
+- hosts: testserver
+  remote_user: vagrant
   roles:
-    - apache-maven
+    - apache-maven:
+        maven_version: 3
+        maven_release: 3.3.9

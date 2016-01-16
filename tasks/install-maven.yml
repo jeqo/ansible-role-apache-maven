@@ -1,6 +1,4 @@
 ---
-#
-
 # download apache
 - name: download apache maven
   get_url:
@@ -8,5 +6,27 @@
     dest: /tmp/maven-{{ maven_release }}.tar.gz
 
 # unarchive file
+- name: unarchive file
+  unarchive:
+    src: "http://www.apache.org/dist/maven/maven-{{ maven_version }}/{{ maven_release }}/binaries/apache-maven-{{ maven_release }}-bin.tar.gz"
+    dest: "{{ maven_base }}"
+
+- set_fact:
+    profile_file: "$HOME/.profile"
+  when: ansible_os_family == "Debian"
+
+- set_fact:
+    profile_file: "$HOME/.bash_profile"
+  when: ansible_os_family == "RedHat"
 
 # configure variables
+- name: set maven variables
+  lineinfile:
+   dest: "{{ profile_file }}"
+   regexp: "^{{ item.start }}"
+   line: "{{ item.start }}{{ item.end }}"
+   insertbefore: "export PATH"
+  with_items:
+   - { start: "M2_HOME=", end: "{{ maven_home }}" }
+   - { start: "PATH=$M2_HOME/bin:", end: "$PATH" }
+   - { start: "export M2_HOME", end: "" }
