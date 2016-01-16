@@ -1,11 +1,15 @@
 ---
-# download apache
+#
 - name: download apache maven
   get_url:
     url: http://www.apache.org/dist/maven/maven-{{ maven_version }}/{{ maven_release }}/binaries/apache-maven-{{ maven_release }}-bin.tar.gz
     dest: /tmp/maven-{{ maven_release }}.tar.gz
 
-# unarchive file
+- name: prepare maven directory
+  file:
+    path: "{{ maven_base }}"
+    state: directory
+
 - name: unarchive file
   unarchive:
     src: "http://www.apache.org/dist/maven/maven-{{ maven_version }}/{{ maven_release }}/binaries/apache-maven-{{ maven_release }}-bin.tar.gz"
@@ -19,7 +23,6 @@
     profile_file: "$HOME/.bash_profile"
   when: ansible_os_family == "RedHat"
 
-# configure variables
 - name: set maven variables
   lineinfile:
    dest: "{{ profile_file }}"
