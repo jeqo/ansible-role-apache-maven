@@ -10,11 +10,19 @@
     path: "{{ maven_base }}"
     state: directory
 
+- stat: "path={{ maven_home }}/bin/mvn"
+  register: mvn_file
+
+- debug:
+    var: mvn_file
+
 - name: unarchive file
   unarchive:
     src: "http://www.apache.org/dist/maven/maven-{{ maven_version }}/{{ maven_release }}/binaries/apache-maven-{{ maven_release }}-bin.tar.gz"
     dest: "{{ maven_base }}"
     copy: no
+  when: mvn_file.stat.exists == false
+
 
 - set_fact:
     profile_file: "$HOME/.profile"

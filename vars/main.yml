@@ -1,3 +1,4 @@
 ---
 # vars file for apache-maven
 maven_base: "{{ ansible_env.HOME }}/apache/maven"
+maven_home: "{{ maven_base }}/apache-maven-{{ maven_release }}"
