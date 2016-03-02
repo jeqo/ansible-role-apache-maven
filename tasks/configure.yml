@@ -1,0 +1,18 @@
+---
+#
+- name: set maven variables
+  lineinfile:
+   dest: "{{ profile_file }}"
+   regexp: "{{ item.regexp }}"
+   line: "{{ item.line }}"
+   insertbefore: "export PATH"
+  with_items:
+   -
+     regexp: "^M2_HOME="
+     line: "M2_HOME={{ maven_home }}"
+   -
+     regexp: ^PATH=\$M2_HOME/bin
+     line: PATH=\$M2_HOME/bin:$PATH
+   -
+     regexp: "^export M2_HOME"
+     line: export M2_HOME
