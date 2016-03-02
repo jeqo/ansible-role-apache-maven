@@ -1,8 +1,18 @@
 ---
 #
+
+
+- set_fact:
+    maven_profile_file: "$HOME/.profile"
+  when: ansible_os_family == "Debian"
+
+- set_fact:
+    maven_profile_file: "{{ ansible_env.HOME }}/.bash_profile"
+  when: ansible_os_family == "RedHat"
+
 - name: set maven variables
   lineinfile:
-   dest: "{{ profile_file }}"
+   dest: "{{ maven_profile_file }}"
    regexp: "{{ item.regexp }}"
    line: "{{ item.line }}"
    insertbefore: "export PATH"
