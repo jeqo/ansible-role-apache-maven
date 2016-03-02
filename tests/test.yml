@@ -3,6 +3,6 @@
 - name: test install maven 3.3.9 openjdk jdk 8 on centos 7
   hosts: test01
   roles:
-    - role: maven
+    - role: apache-maven
       maven_version: 3
       maven_release: 3.3.9

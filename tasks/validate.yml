@@ -8,3 +8,4 @@
 
 - set_fact:
     maven_already_installed: true
+  when: mvn_file.stat.exists
