@@ -5,3 +5,5 @@
 
 - include: install.yml
   when: not maven_already_installed
+
+- include: configure.yml
