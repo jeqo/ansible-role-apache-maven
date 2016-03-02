@@ -1,0 +1,10 @@
+---
+#
+- stat: "path={{ maven_home }}/bin/mvn"
+  register: mvn_file
+
+- debug:
+    var: mvn_file
+
+- set_fact:
+    maven_already_installed: true

@@ -5,19 +5,13 @@
     path: "{{ maven_base }}"
     state: directory
 
-- stat: "path={{ maven_home }}/bin/mvn"
-  register: mvn_file
 
-- debug:
-    var: mvn_file
 
 - name: unarchive file
   unarchive:
     src: "http://www.apache.org/dist/maven/maven-{{ maven_version }}/{{ maven_release }}/binaries/apache-maven-{{ maven_release }}-bin.tar.gz"
     dest: "{{ maven_base }}"
     copy: no
-  when: mvn_file.stat.exists == false
-
 
 - set_fact:
     profile_file: "$HOME/.profile"
@@ -30,10 +24,16 @@
 - name: set maven variables
   lineinfile:
    dest: "{{ profile_file }}"
-   regexp: "^{{ item.start }}"
-   line: "{{ item.start }}{{ item.end }}"
+   regexp: "{{ item.regexp }}"
+   line: "{{ item.line }}"
    insertbefore: "export PATH"
   with_items:
-   - { start: "M2_HOME=", end: "{{ maven_home }}" }
-   - { start: "PATH=$M2_HOME/bin:", end: "$PATH" }
-   - { start: "export M2_HOME", end: "" }
+   -
+     regexp: "^M2_HOME="
+     line: "M2_HOME={{ maven_home }}"
+   -
+     regexp: ^PATH=\$M2_HOME/bin:
+     line: PATH=\$M2_HOME/bin:$PATH
+   -
+     regexp: ^export M2_HOME
+     line: export M2_HOME

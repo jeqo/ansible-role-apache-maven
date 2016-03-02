@@ -1,4 +1,4 @@
 ---
 # defaults file for apache-maven
-maven_version: # 3
-maven_release: # 3.3.9
+maven_version: 3 # 3
+maven_release: 3.3.9 # 3.3.9

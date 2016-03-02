@@ -1,3 +1,7 @@
 ---
 # tasks file for apache-maven
-- include: install-maven.yml
+- include: validate.yml
+  when: not maven_already_installed
+
+- include: install.yml
+  when: not maven_already_installed
